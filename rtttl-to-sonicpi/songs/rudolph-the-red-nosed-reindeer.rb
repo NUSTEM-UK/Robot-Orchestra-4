@@ -1,5 +1,5 @@
-# Little Town Of Bethlehem
-use_bpm = 160
+# Gene Autry - Rudolph The Red Nosed Reindeer
+use_bpm = 100
 
 ip_address = "10.0.1.3"
 port = "4559" 
@@ -13,7 +13,7 @@ define :playn do |note, duration|
 end
 
 in_thread(name: :drums) do
-  use_bpm 160
+  use_bpm 100
   sync :start
   sleep 2
   loop do
@@ -23,43 +23,43 @@ in_thread(name: :drums) do
 end
 
 in_thread(name: :melody) do
-  use_bpm 160
+  use_bpm 100
   sync :start
   sleep 2
-  playn :C3, 0.5
-  playn :F3, 0.5
-  playn :F3, 0.5
-  playn :F3, 0.5
-  playn :G3, 0.5
+  playn :G3, 0.25
+  playn :A3, 0.5
+  playn :G3, 0.25
+  playn :E3, 0.5
+  playn :C4, 0.5
+  playn :A3, 0.5
+  playn :G3, 1.0
+  playn :rest, 0.5
+  playn :rest, 0.25
+  playn :G3, 0.25
   playn :A3, 0.25
   playn :G3, 0.25
   playn :A3, 0.25
-  playn :A3, 0.25
+  playn :G3, 0.5
   playn :C4, 0.5
-  playn :A3, 0.5
-  playn :A3, 0.5
-  playn :A3, 0.25
+  playn :B3, 1.0
+  playn :rest, 0.5
+  playn :rest, 0.25
   playn :F3, 0.25
   playn :G3, 0.5
-  playn :G3, 0.5
-  playn :F3, 1.5
-  playn :C3, 0.5
-  playn :F3, 0.5
-  playn :F3, 0.5
-  playn :F3, 0.5
-  playn :G3, 0.5
+  playn :F3, 0.25
+  playn :D3, 0.5
+  playn :B3, 0.5
+  playn :A3, 0.5
+  playn :G3, 1.0
+  playn :rest, 0.5
+  playn :rest, 0.25
+  playn :G3, 0.25
   playn :A3, 0.25
   playn :G3, 0.25
   playn :A3, 0.25
-  playn :A3, 0.25
-  playn :C4, 0.5
-  playn :A3, 0.5
-  playn :A3, 0.5
-  playn :A3, 0.25
-  playn :F3, 0.25
   playn :G3, 0.5
-  playn :G3, 0.5
-  playn :F3, 1.5
+  playn :A3, 0.5
+  playn :E3, 1.0
 end
 
 in_thread(name: :cue) do

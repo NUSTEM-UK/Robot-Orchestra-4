@@ -1,52 +1,66 @@
 from rtttl_hack import RTTTL
 from songsearcher import searcher
+from rttllist import songdict
+from slugify import slugify
 
-request = "Away in a Manger"
-guessed_song_title, match_accuracy, song_rtttl = searcher(request)
+output_dir = "outputs/"
 
-tune = RTTTL(song_rtttl)
+newline = "\n"
 
-print("# " + guessed_song_title)
-print("use_bpm = " + str(tune.bpm))
-print("")
-print("ip_address = \"10.0.1.3\"")
-print("port = \"4559\" ")
-print("use_osc ip_address, port")
+def translate(song_name):
+    guessed_song_title, match_accuracy, song_rtttl = searcher(song_name)
+    tune = RTTTL(song_rtttl)
 
-# print("use_synth :chiplead")
-print("use_synth :piano")
-print("")
-print("define :playn do |note, duration|")
-print("    play note")
-print("    osc note")
-print("    sleep duration")
-print("end")
-print("")
+    filename = output_dir + slugify(song) + ".rb"
+    f = open(filename, "x")
 
-print("in_thread(name: :drums) do")
-print("  use_bpm " + str(tune.bpm))
-print("  sync :start")
-print("  sleep 2")
-print("  loop do")
-print("    sample :drum_bass_hard")
-print("    sleep 1")
-print("  end")
-print("end")
+    f.write("# " + guessed_song_title + newline)
+    f.write("use_bpm = " + str(tune.bpm) + newline)
+    f.write("" + newline)
+    f.write("ip_address = \"10.0.1.3\"" + newline)
+    f.write("port = \"4559\" " + newline)
+    f.write("use_osc ip_address, port" + newline)
 
-print("")
+    # print("use_synth :chiplead")
+    f.write("use_synth :piano" + newline)
+    f.write("" + newline)
+    f.write("define :playn do |note, duration|" + newline)
+    f.write("  play note" + newline)
+    f.write("  osc note" + newline)
+    f.write("  sleep duration" + newline)
+    f.write("end" + newline)
+    f.write("" + newline)
 
-print("in_thread(name: :melody) do")
-print("  use_bpm ") + str(tune.bpm)
-print("  sync :start")
-print("  sleep 2")
-for freq, dur in tune.notes():
-    # print("  play hz_to_midi(" + str(freq) + ")")
-    # print("  sleep " + str(msec) + ".to_f/1000")
-    print("  playn :" + freq + ", " + str(dur))
-    # print("sleep " + str(dur))
-print("end")
-print("")
+    f.write("in_thread(name: :drums) do" + newline)
+    f.write("  use_bpm " + str(tune.bpm) + newline)
+    f.write("  sync :start" + newline)
+    f.write("  sleep 2" + newline)
+    f.write("  loop do" + newline)
+    f.write("    sample :drum_bass_hard" + newline)
+    f.write("    sleep 1" + newline)
+    f.write("  end" + newline)
+    f.write("end" + newline)
 
-print("in_thread(name: :cue) do")
-print("  cue :start")
-print("end")
+    f.write("" + newline)
+
+    f.write("in_thread(name: :melody) do" + newline)
+    f.write("  use_bpm " + str(tune.bpm) + newline)
+    f.write("  sync :start" + newline)
+    f.write("  sleep 2" + newline)
+    for freq, dur in tune.notes():
+        # f.write("  play hz_to_midi(" + str(freq) + ")" + newline)
+        # f.write("  sleep " + str(msec) + ".to_f/1000" + newline)
+        f.write("  playn :" + freq + ", " + str(dur) + newline)
+        # f.write("sleep " + str(dur) + newline)
+    f.write("end" + newline)
+    f.write("" + newline)
+
+    f.write("in_thread(name: :cue) do" + newline)
+    f.write("  cue :start" + newline)
+    f.write("end" + newline)
+    f.close()
+
+if __name__ == "__main__":
+    for song in songdict:
+        translate(song)
+        

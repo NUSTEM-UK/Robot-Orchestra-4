@@ -1,5 +1,5 @@
-# Silent Night
-use_bpm = 160
+# Amazing Grace
+use_bpm = 80
 
 ip_address = "10.0.1.3"
 port = "4559" 
@@ -13,7 +13,7 @@ define :playn do |note, duration|
 end
 
 in_thread(name: :drums) do
-  use_bpm 160
+  use_bpm 80
   sync :start
   sleep 2
   loop do
@@ -23,23 +23,31 @@ in_thread(name: :drums) do
 end
 
 in_thread(name: :melody) do
-  use_bpm 160
+  use_bpm 80
   sync :start
   sleep 2
-  playn :G3, 0.75
+  playn :C3, 0.25
+  playn :F3, 0.25
+  playn :F3, 1.0
   playn :A3, 0.25
-  playn :G3, 0.5
-  playn :E3, 1.5
-  playn :G3, 0.75
+  playn :G3, 0.25
+  playn :F3, 0.25
+  playn :A3, 1.0
   playn :A3, 0.25
-  playn :G3, 0.5
-  playn :E3, 1.5
-  playn :D4, 1.0
-  playn :D4, 0.5
-  playn :B3, 1.5
-  playn :C4, 1.0
-  playn :C4, 0.5
-  playn :G3, 1.5
+  playn :G3, 0.25
+  playn :F3, 1.0
+  playn :D3, 0.5
+  playn :C3, 1.0
+  playn :C3, 0.25
+  playn :F3, 0.25
+  playn :F3, 1.0
+  playn :A3, 0.25
+  playn :G3, 0.25
+  playn :F3, 0.25
+  playn :A3, 1.0
+  playn :G3, 0.25
+  playn :A3, 0.25
+  playn :C4, 1.5
 end
 
 in_thread(name: :cue) do

@@ -23,7 +23,7 @@ in_thread(name: :drums) do
 end
 
 in_thread(name: :melody) do
-  use_bpm 100
+  use_bpm 140
   sync :start
   sleep 2
   playn :A4, 0.25
