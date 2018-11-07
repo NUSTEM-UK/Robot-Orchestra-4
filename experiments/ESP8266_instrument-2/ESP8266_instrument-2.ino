@@ -30,7 +30,7 @@ char password[] = "nustem123";                    // your network password
 // A UDP instance to let us send and receive packets over UDP
 WiFiUDP Udp;
 //const IPAddress outIp(10,40,10,105);        // remote IP (not needed for receive)
-const IPAddress outIp(10,0,1,6);        // remote IP (not needed for receive)
+const IPAddress outIp(10,0,1,3);        // remote IP (not needed for receive)
 const unsigned int outPort = 4559;          // remote port (not needed for receive)
 const unsigned int localPort = 4559;        // local port to listen for UDP packets (here's where we send the packets)
 
@@ -60,6 +60,8 @@ int twos;
 int fours;
 int eights;
 int sixteens;
+
+int baseNote = 48;
 
 // Define how far the servo moves
 // Fiddling with this is rare, and note that the servo rarely has time to reach angleTwitch
@@ -164,7 +166,7 @@ void updateChannel() {
   eights = !digitalRead(D7);
   sixteens = !digitalRead(D8);
 
-  myNote = 60 + (16 * sixteens) + (8 * eights) + (4 * fours) + (2 * twos) + (units);
+  myNote = baseNote + (16 * sixteens) + (8 * eights) + (4 * fours) + (2 * twos) + (units);
 }
 
 
