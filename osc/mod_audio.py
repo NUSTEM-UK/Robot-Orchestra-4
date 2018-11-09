@@ -12,7 +12,7 @@ except ImportError:
 
 BANK = os.path.join(os.path.dirname(__file__), "sounds")
 
-NOTE_OFFSET = 0
+NOTE_OFFSET = -24
 FILETYPES = ['*.wav', '*.ogg']
 samples = []
 files = []

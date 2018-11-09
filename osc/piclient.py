@@ -61,16 +61,17 @@ def handleNote(unused_addr, note = ""):
     Default note is empty, to trap Sonic Pi :rest, which is sent as a nul string.
     """
     if (note != ""):
-        print(note)
+        n = str(note)
         handle_note(note, 1) # We're passing in the raw MIDI number, no lookup or octave offset
         # Check to see if we have a servo for this note
-        if note in noteServos:
+        if n in noteServos:
             # Got one, so let's move it
-            noteServos[note].mid()
+            print("Moving servo for note: ", n)
+            noteServos[n].mid()
             sleep(servoMoveTime) # Give the servo a short time to move
-            noteServos[note].min() # Return servo to rest position
+            noteServos[n].min() # Return servo to rest position
         else:
-            print("Servo not found")
+            print("No servo found for note: ", n)
 
 
 if __name__ == "__main__":
