@@ -115,7 +115,7 @@ void setup() {
 void playn(OSCMessage &msg) {
   // We have a note!
   received_value = msg.getFloat(0);
-  Serial.print("/note/: ");
+  Serial.print("/broadcast/: ");
   Serial.println(received_value);
   // Now check if we should play it
   if ( int(received_value) = myNote ) {
