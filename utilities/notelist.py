@@ -1,4 +1,8 @@
-"""Parse Sonic Pi files for notes, extract list of MIDI notes used."""
+"""Parse Sonic Pi files for notes, extract list of MIDI notes used.
+
+Usage: pass file (with path) with --file command-line option.
+Output is (sorted) list of MIDI note numbers played.
+"""
 
 import argparse
 
@@ -9,10 +13,20 @@ notes_to_midi = { "A2": 45, "Bb2": 46, "B2": 47, "C3": 48, "Db3": 49, "D3": 50,
                   "A4": 69, "Bb4": 70, "B4": 71, "C5": 72, "Db5": 73, "D5": 74, 
                   "Eb5": 75, "E5": 76, "F5": 77, "Gb5": 78, "G5": 79 }
 
-newline = "\n"
-
 def parse_song(f):
-    
+    # line = f.readline()
+    # Give ourselves an empty list
+    found_notes = []
+    # Just read the whole file in, it's not like we're memory-limited here.
+    contents = f.read()
+    # Check file for each key in the notes_to_midi list
+    # Append matching notes to the found_notes list.
+    for key in notes_to_midi:
+        if key in contents.upper():
+            found_notes.append(notes_to_midi[key])
+    # Sort the found_notes list and output it.
+    print(sorted(found_notes))
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
