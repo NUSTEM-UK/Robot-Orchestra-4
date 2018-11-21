@@ -1,5 +1,5 @@
 #Ding Dong Merrily on High transcribed by Robin Newman December 2014
-ip_address = "10.0.1.3"
+ip_address = "192.168.4.1"
 port = "8000"
 use_osc ip_address, port
 use_synth :piano

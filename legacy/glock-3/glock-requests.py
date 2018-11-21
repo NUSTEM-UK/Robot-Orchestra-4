@@ -122,7 +122,7 @@ def on_message(client, userdata, msg):
 
 if __name__ == "__main__":
     mqttc = mqtt.Client()
-    mqtt_server = "10.0.1.3"
+    mqtt_server = "192.168.4.1"
     mqttc.on_connect = on_connect
     mqttc.on_message = on_message
     mqttc.connect(mqtt_server, 1883)

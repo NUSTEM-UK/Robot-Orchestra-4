@@ -17,7 +17,7 @@ def translate(song_name):
     f.write("# " + guessed_song_title + newline)
     f.write("use_bpm = " + str(tune.bpm) + newline)
     f.write("" + newline)
-    f.write("ip_address = \"10.0.1.3\"" + newline)
+    f.write("ip_address = \"192.168.4.1\"" + newline)
     f.write("port = \"8000\" " + newline)
     f.write("use_osc ip_address, port" + newline)
 
