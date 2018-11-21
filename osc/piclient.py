@@ -76,7 +76,7 @@ def handleNote(unused_addr, note = ""):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--ip", default="10.0.1.255", help="The ip to listen on")
+    parser.add_argument("--ip", default="192.168.4.255", help="The ip to listen on")
     parser.add_argument("--port", type=int, default="4559", help="The port to listen on")
     args = parser.parse_args()
 
