@@ -9,7 +9,7 @@ tune = RTTTL(song_rtttl)
 print("# " + guessed_song_title)
 print("use_bpm = " + str(tune.bpm))
 print("")
-print("ip_address = \"10.0.1.3\"")
+print("ip_address = \"192.168.4.1\"")
 print("port = \"4559\" ")
 print("use_osc ip_address, port")
 

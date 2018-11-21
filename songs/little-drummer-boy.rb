@@ -1,7 +1,7 @@
 # Little Drummer Boy
 use_bpm = 140
 
-ip_address = "10.0.1.3"
+ip_address = "192.168.4.1"
 port = "8000" 
 use_osc ip_address, port
 use_synth :piano
