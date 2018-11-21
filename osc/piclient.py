@@ -20,7 +20,7 @@ from time import sleep
 from pythonosc import dispatcher
 from pythonosc import osc_server
 from gpiozero import Device, Servo
-from gpiozero.pins.pigpiod import PiGPIOFactory
+from gpiozero.pins.pigpio import PiGPIOFactory
 from mod_audio import handle_note
 
 # Having worked out this dictionary, I've a nasty feeling I'm not going to use it.
