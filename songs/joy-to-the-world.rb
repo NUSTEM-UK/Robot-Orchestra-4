@@ -12,12 +12,19 @@ define :playn do |notereq, duration|
   sleep duration
 end
 
+define :playdrum do |drumreq|
+  if (drumreq == 100)
+    sample :drum_bass_hard
+    osc "/triggerBroadcast", 100
+  end
+end
+
 in_thread(name: :drums) do
   use_bpm 56
   sync :start
   sleep 2
-  loop do
-    sample :drum_bass_hard
+  20.times do
+    playdrum 100
     sleep 1
   end
 end
