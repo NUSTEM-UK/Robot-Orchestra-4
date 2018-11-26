@@ -2,7 +2,7 @@
 use_bpm = 56
 
 ip_address = "192.168.4.1"
-port = "8000" 
+port = "8000"
 use_osc ip_address, port
 use_synth :piano
 
@@ -14,18 +14,36 @@ end
 
 define :playdrum do |drumreq|
   if (drumreq == 100)
-    sample :drum_bass_hard
+    sample :drum_tom_hi_hard
     osc "/triggerBroadcast", 100
   end
+  if (drumreq == 99)
+    sample :drum_tom_mid_soft
+    osc "/triggerBroadcast", 99
+  end
+  
 end
 
 in_thread(name: :drums) do
   use_bpm 56
   sync :start
-  sleep 2
-  20.times do
+  4.times do
     playdrum 100
-    sleep 1
+    sleep 0.25
+    playdrum 99
+    sleep 0.25
+  end
+  in_thread(name: :drumsA) do
+    20.times do
+      playdrum 100
+      sleep 1
+    end
+  end
+  in_thread(name: :drumsB) do
+    40.times do
+      playdrum 99
+      sleep 0.5
+    end
   end
 end
 
