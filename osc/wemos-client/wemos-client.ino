@@ -5,9 +5,9 @@ First version of OSC-listening instrument
 Based heavily on OSC example code.
 Listening to specific IP.
 
-This version has runtime-assignable addressing, but expanding beyond the previous ping D5/6/7 
-3-bit addressing prevents INPUT_PULLUP driving defualt assignment (ie. pins have to be pulled
-high or low manually), which adds complexity.
+This version hard-codes MIDI note assignment, for simplicity of building circuit.
+
+NB. Servo outs have reverted.
 
 --------------------------------------------------------------------------------------------- */
 #ifdef ESP8266
@@ -19,7 +19,7 @@ high or low manually), which adds complexity.
 #include <OSCMessage.h>
 #include <OSCBundle.h>
 #include <OSCData.h>
-#include <Servo.h>
+#include <Servo.h>                                                                                                                                                                       
 
 // I appear to need function prototypes?!
 void twitch(Servo &theServo, int angle);
@@ -53,50 +53,26 @@ float received_value = 0.0;
 #endif
 
 // Pin definitions
-#define PIN_SERVO D4
-#define PIN_SERVO2 D3
+#define PIN_SERVO D1
+#define PIN_SERVO2 D2
 
 Servo myservo;
 Servo myservo2;
 
-#define PIN_UNITS D0
-#define PIN_TWOS D5
-#define PIN_FOURS D6
-#define PIN_EIGHTS D7
-#define PIN_SIXTEENS D1
-#define PIN_THIRTYTWOS D2
 
-int myOldNote = 60;
 int myNote = 60; // Middle C
+int myNote2 = 61;
 
-// Temp storage of channel data, read from pins in loop.
-int units;
-int twos;
-int fours;
-int eights;
-int sixteens;
-int thirtytwos;
-
-int baseNote = 45;
 
 // Define how far the servo moves
 // Fiddling with this is rare, and note that the servo rarely has time to reach angleTwitch
 const int angleRest = 0;          // Initial angle of servo
 const int angleTwitch = 180;      // Deflection target angle if we're playing a beat
-const int actionTime = 100;       // Fro how many msec do we allow the servo to move?
+const int actionTime = 75;       // For how many msec do we allow the servo to move?
 
 void setup() {
   pinMode(BUILTIN_LED, OUTPUT);
   digitalWrite(BUILTIN_LED, ledState);    // turn *on* led
-
-  // Set up 6-bit note addressing. Gives us 64 possible notes.
-  // Note that input-pullup doesn't quite work
-  pinMode(PIN_UNITS, INPUT_PULLUP); // units
-  pinMode(PIN_TWOS, INPUT_PULLUP); // twos
-  pinMode(PIN_FOURS, INPUT_PULLUP); // fours
-  pinMode(PIN_EIGHTS, INPUT_PULLUP); // eights
-  pinMode(PIN_SIXTEENS, INPUT_PULLUP); // sixteens
-  pinMode(PIN_THIRTYTWOS, INPUT_PULLUP); // thirtytwos
 
   myservo.attach(PIN_SERVO);
   myservo2.attach(PIN_SERVO2);
@@ -120,8 +96,6 @@ void setup() {
   }
   Serial.println("");
 
-  digitalWrite(D8, HIGH);
-
   Serial.println("WiFi connected");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
@@ -134,6 +108,11 @@ void setup() {
 #else
   Serial.println(Udp.localPort());
 #endif
+
+  Serial.print("Listening for notes: ");
+  Serial.print(myNote);
+  Serial.print(" & ");
+  Serial.println(myNote2);
 
 }
 
@@ -150,7 +129,7 @@ void playn(OSCMessage &msg) {
     delay(actionTime); // Time for movement
     twitch(myservo, angleRest);
     // No delay here, which I may regret.
-  } else if ( int(received_value) == (myNote + 1) ) {
+  } else if ( int(received_value) == (myNote2) ) {
     Serial.println(">>> PLAYING 2!");
     twitch(myservo2, angleTwitch);
     delay(actionTime);
@@ -174,37 +153,12 @@ void loop() {
       Serial.println(error);
     }
   }
-  updateChannel();
 }
 
 void twitch(Servo &theServo, int angle) {
   theServo.write(angle); // Move towards chosen angle
 }
 
-void updateChannel() {
-  units = digitalRead(PIN_UNITS);
-  twos = digitalRead(PIN_TWOS);
-  fours = digitalRead(PIN_FOURS);
-  eights = digitalRead(PIN_EIGHTS);
-  sixteens = digitalRead(PIN_SIXTEENS);
-  thirtytwos = digitalRead(PIN_THIRTYTWOS);
-
-  // Debug!
-  // Serial.print(thirtytwos);
-  // Serial.print(sixteens);
-  // Serial.print(eights);
-  // Serial.print(fours);
-  // Serial.print(twos);
-  // Serial.println(units);
-  // delay(1000);
-
-  myNote = baseNote + (32 * thirtytwos) + (16 * sixteens) + (8 * eights) + (4 * fours) + (2 * twos) + (units);
-  if (myNote != myOldNote) {
-    Serial.print("Target note changed to: ");
-    Serial.println(myNote);
-    myOldNote = myNote;
-  }
-}
 
 
 void led(OSCMessage &msg) {
