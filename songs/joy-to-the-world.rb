@@ -34,17 +34,24 @@ in_thread(name: :drums) do
     sleep 0.25
   end
   in_thread(name: :drumsA) do
-    20.times do
+    19.times do
       playdrum 100
       sleep 1
     end
   end
   in_thread(name: :drumsB) do
-    40.times do
+    38.times do
       playdrum 99
       sleep 0.5
     end
   end
+  sleep 19
+  2.times do p
+    playdrum 100
+    playdrum 99
+    sleep 0.25
+  end
+  
 end
 
 in_thread(name: :melody) do
