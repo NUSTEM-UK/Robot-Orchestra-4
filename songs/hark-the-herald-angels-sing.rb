@@ -115,6 +115,7 @@ in_thread(name: :melody) do
   playn :F3, 1.0
   playn :G3, 1.0
   playn :F3, 1.5
+  playn 255, 1 # Message end of song
 end
 
 in_thread(name: :cue) do

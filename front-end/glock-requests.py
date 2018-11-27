@@ -21,6 +21,8 @@ import subprocess
 from time import sleep
 from termcolor import colored, cprint
 from songsearcher import searcher
+from pythonosc import dispatcher, osc_server
+
 
 
 def welcome():
@@ -45,16 +47,20 @@ def welcome():
     cprint("                            Christmas Carols played extraordinarily badly, since 2018", 'yellow')
     sleep(0.05)
     print("")
+    sleep(0.05)
 
 def get_input():
     """Collect request string from shell."""
     cprint("I can play many Christmas carols.", "green")
+    sleep(0.05)
     cprint("Which one would you like? ", "green")
+    sleep(0.05)
     return input("--> ")
     
 def respond(request, song, accuracy):
     """Respond to the input request."""
     print()
+    sleep(0.05)
     respond_string = colored("You asked for: ", 'yellow')
     respond_string += colored(request, 'green')
     cprint(respond_string)
@@ -64,11 +70,13 @@ def respond(request, song, accuracy):
     respond_string2 += colored("% confident that matches: ", 'yellow')
     respond_string2 += colored(song, 'green') 
     cprint(respond_string2)
+    sleep(0.05)
     print()
     sleep(0.5)
 
 def play_song(song, filename):
     """Command the glockenspiel."""
+    global finished
     cprint("Playing my best guess in", 'yellow')
     sleep(0.05)
     countdown()
@@ -85,15 +93,18 @@ def play_song(song, filename):
     # TODO: this bit:
     # Needs to call a subprocess. Not sure how we find out it's exited.
     # Ah... that's what subprocess.wait() is for
-    print(">>>This is where the command code would go")
-    print(filename)
-    # command = "sonic-pi-tool.py run-file /Users/jonathan/Documents/GitHub/Robot-Orchestra-4/songs/"
+    # print(filename)
     # command += filename
     fileurl = "../songs/" + filename
     # playback = subprocess.run(command)
     subprocess.run(["sonic-pi-tool.py", "run-file", fileurl])
     # playback.wait()
+
+    while finished == False:
+        server.handle_request()
+
     song_complete()
+    finished = False
     next_request()
     
 
@@ -117,10 +128,12 @@ def song_complete():
     countdown()
     clear_screen()
 
+
 def clear_screen():
     for _ in range(30):
         print()
         sleep(0.05)
+
 
 def countdown():
     # cprint("...3", 'red')
@@ -146,6 +159,17 @@ def countdown():
     sleep(0.6)
 
 
+def handleNote(unused_addr, note = ""):
+    """Triggered on broadcast notes, listen for a signal on note 255.
+
+    Default note is empty to trap Sonic Pi rest, which is sent as nul string.
+    """
+    if (note != ""):
+        n = str(note)
+        if n == 255:
+            finished = True # Set the semaphore
+
+
 def next_request():
     welcome()
     request = get_input()
@@ -159,5 +183,13 @@ def next_request():
     play_song(guessed_song_title, songFileName)
 
 if __name__ == "__main__":
+    # Set up OSC listener for end-of-song prompt
+    dispatcher = dispatcher.Dispatcher()
+    dispatcher.map("/broadcast", handleNote)
+    # server = osc_server.ThreadingOSCUDPServer(("194.168.4.255", 8000), dispatcher)
+    server = osc_server.ThreadingOSCUDPServer(("127.0.0.1", 8000), dispatcher)
+    # We now have a server object. Poll for events when we really care about it (in playback)
+    # ...which means we can start the input cycle:
+    finished = False
     next_request()
     
