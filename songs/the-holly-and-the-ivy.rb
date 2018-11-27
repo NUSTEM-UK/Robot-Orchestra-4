@@ -8,7 +8,7 @@ s=0 #define s as global here
 define :setbpm do |n| #set correct value of s in here
   s = (1.0 / 8) *(60.0/n.to_f)
 end
-setbpm(120)
+setbpm(160)
 
 dsq = 1 * s #note length definitions
 sq = 2 * s
