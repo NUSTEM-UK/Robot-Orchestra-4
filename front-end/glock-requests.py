@@ -7,6 +7,8 @@ Dependencies (pip3 install):
     python-Levenshtein (in songsearcher module)
     termcolor
 
+Install sonic-pi-tool as per: https://github.com/emlyn/sonic-pi-tool
+
 Dependencies (ruby/cli):
     gem install sonic-pi-cli
 
