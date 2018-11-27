@@ -60,15 +60,15 @@ Servo myservo;
 Servo myservo2;
 
 
-int myNote = 60; // Middle C
-int myNote2 = 61;
+int myNote = 79;
+int myNote2 = 100;
 
 
 // Define how far the servo moves
 // Fiddling with this is rare, and note that the servo rarely has time to reach angleTwitch
 const int angleRest = 0;          // Initial angle of servo
 const int angleTwitch = 180;      // Deflection target angle if we're playing a beat
-const int actionTime = 75;       // For how many msec do we allow the servo to move?
+const int actionTime = 50;       // For how many msec do we allow the servo to move?
 
 void setup() {
   pinMode(BUILTIN_LED, OUTPUT);
@@ -125,15 +125,19 @@ void playn(OSCMessage &msg) {
   // Now check if we should play it
   if ( int(received_value) == myNote ) {
     Serial.println(">>> PLAYING!");
+    digitalWrite(BUILTIN_LED, HIGH); // Flash the LED OFF to indicate we got a note
     twitch(myservo, angleTwitch);
     delay(actionTime); // Time for movement
     twitch(myservo, angleRest);
+    digitalWrite(BUILTIN_LED, LOW); // Return LED to on.
     // No delay here, which I may regret.
   } else if ( int(received_value) == (myNote2) ) {
     Serial.println(">>> PLAYING 2!");
+    digitalWrite(BUILTIN_LED, HIGH); // Flash the LED to indicate we got a note
     twitch(myservo2, angleTwitch);
     delay(actionTime);
     twitch(myservo2, angleRest);
+    digitalWrite(BUILTIN_LED, LOW); // Return LED to on.
   }
 }
 
