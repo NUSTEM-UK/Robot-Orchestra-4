@@ -2,6 +2,9 @@
 
 Usage: pass file (with path) with --file command-line option.
 Output is (sorted) list of MIDI note numbers played.
+
+Run on directory via: 
+    for i in *.rb; do python3 ../utilities/notelist.py --file "$i"; done
 """
 
 import argparse
