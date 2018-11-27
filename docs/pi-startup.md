@@ -42,4 +42,4 @@ Then:
 
 reveals error was: system python3 doesn't have pythonosc available. Oh, durr. So `sudo pip3 install python-osc` ... which fails because we don't have network to the world. Gaaaaah. Sooo... bridge the Pi to the world via my MacBook, Ethernet/Thunderbolt cable, and my phone. Do the `pip` install, and try again.
 
-`systemctl status oscbroadcast.service` now reports loaded and active/running. `osc-monitor.py` shows broadcast behaviour happening as expected. 
+`systemctl status oscbroadcast.service` now reports loaded and active/running. `osc-monitor.py` shows broadcast behaviour happening as expected. WooT!
