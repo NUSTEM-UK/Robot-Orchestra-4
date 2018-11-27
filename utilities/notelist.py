@@ -25,7 +25,7 @@ def parse_song(f):
         if key in contents.upper():
             found_notes.append(notes_to_midi[key])
     # Sort the found_notes list and output it.
-    print(sorted(found_notes))
+    print(f.name + " " + str(sorted(found_notes)))
 
 
 if __name__ == "__main__":
