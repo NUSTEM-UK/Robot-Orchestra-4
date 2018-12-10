@@ -9,6 +9,13 @@ Dependencies (pip3 install):
 
 Install sonic-pi-tool as per: https://github.com/emlyn/sonic-pi-tool
 
+Getting oscpy to install correctly can be fiddly: best bet is 
+
+    python -m pip install oscpy
+
+...which seems to work. I've no idea why that's not working via pip/pip3 or
+those with sudo. Oh, well. Whatever works, right?
+
 Dependencies (ruby/cli):
     gem install sonic-pi-cli
 

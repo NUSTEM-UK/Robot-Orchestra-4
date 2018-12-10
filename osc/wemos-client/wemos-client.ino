@@ -60,15 +60,15 @@ Servo myservo;
 Servo myservo2;
 
 
-int myNote = 79;
-int myNote2 = 100;
+int myNote = 50;
+int myNote2 = 52;
 
 
 // Define how far the servo moves
 // Fiddling with this is rare, and note that the servo rarely has time to reach angleTwitch
-const int angleRest = 0;          // Initial angle of servo
+const int angleRest = 15;          // Initial angle of servo
 const int angleTwitch = 180;      // Deflection target angle if we're playing a beat
-const int actionTime = 50;       // For how many msec do we allow the servo to move?
+const int actionTime = 25;       // For how many msec do we allow the servo to move?
 
 void setup() {
   pinMode(BUILTIN_LED, OUTPUT);
