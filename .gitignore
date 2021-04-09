@@ -102,5 +102,4 @@ venv.bak/
 
 # mypy
 .mypy_cache/
-rtttl-to-sonicpi/.DS_Store
 .DS_Store
